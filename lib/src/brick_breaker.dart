@@ -1,12 +1,14 @@
 import 'dart:async';
+import 'dart:math' as math;
 
+import 'package:brick_breaker/src/components/ball.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
 import 'components/components.dart';
 import 'config.dart';
 
-class BrickBreaker extends FlameGame {
+class BrickBreaker extends FlameGame with HasCollisionDetection {
   BrickBreaker()
       : super(
           camera: CameraComponent.withFixedResolution(
@@ -14,6 +16,8 @@ class BrickBreaker extends FlameGame {
             height: gameHeight,
           ),
         );
+
+  final rand = math.Random();
 
   double get width => size.x;
 
@@ -26,5 +30,17 @@ class BrickBreaker extends FlameGame {
     camera.viewfinder.anchor = Anchor.topLeft;
 
     world.add(PlayArea());
+    world.add(
+      Ball(
+        // Add from here...
+        radius: ballRadius,
+        position: size / 2,
+        velocity: Vector2((rand.nextDouble() - 0.5) * width, height * 0.2)
+            .normalized()
+          ..scale(height / 4),
+      ),
+    );
+
+    debugMode = true;
   }
 }
