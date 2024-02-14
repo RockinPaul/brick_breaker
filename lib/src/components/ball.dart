@@ -27,6 +27,11 @@ class Ball extends CircleComponent
     position += velocity * dt;
   }
 
+  // Flame's collision callbacks have a life cycle. The callbacks are onCollisionStart,
+  // onCollision, and onCollisionEnd. The initial version of this game was written in
+  // terms of onCollision and required additional code to handle follow-on collision
+  // callbacks on later game ticks. Using the right callback for the right purpose
+  // significantly simplifies your code!
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
